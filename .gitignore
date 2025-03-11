@@ -3,4 +3,6 @@
 *.out
 *.swp
 /obj
+philo
+philo_bonus
 
