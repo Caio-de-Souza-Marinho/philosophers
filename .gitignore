@@ -2,7 +2,7 @@
 *.o
 *.out
 *.swp
-/obj
-philo
-philo_bonus
-
+philo/obj
+philo_bonus/obj
+philo/philo
+philo_bonus/philo_bonus
