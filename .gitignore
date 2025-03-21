@@ -6,3 +6,4 @@ philo/obj
 philo_bonus/obj
 philo/philo
 philo_bonus/philo_bonus
+*.nfs*

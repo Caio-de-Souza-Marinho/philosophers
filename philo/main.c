@@ -13,6 +13,8 @@
 #include "philo.h"
 
 void	print_table(t_table *table);
+void	print_forks(t_table *table);
+void	print_philos(t_table *table);
 
 int	main(int argc, char **argv)
 {
@@ -40,18 +42,51 @@ void	print_table(t_table *table)
 	printf("simulation ended - %d\n", table->simulation_ended);
 	printf("finished meals - %d\n", table->finished_meals);
 	printf("start time - %lu\n", table->start_time);
+	print_forks(table);
+	print_philos(table);
+}
+
+void	print_forks(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < table->nbr_philos)
+	{
+		printf("fork id - %d\n", table->forks[i].fork_id);
+		i++;
+	}
+}
+
+void	print_philos(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < table->nbr_philos)
+	{
+		printf("==========PHILO %d==========\n", table->philos[i].id);
+		printf("philo id - %d\n", table->philos[i].id);
+		printf("meal counter - %d\n", table->philos[i].meal_counter);
+		printf("right fork id - %d\n", table->philos[i].right_fork->fork_id);
+		printf("left fork id - %d\n", table->philos[i].left_fork->fork_id);
+		printf("last meal time - %lu\n", table->philos[i].last_meal_time);
+		i++;
+	}
 }
 
 // validate inputs
 // init simulation (parse data from arguments to the t_table struct)
 // init each philo
-// assign each philo two forks
-// philo X is eating
-// philo X is sleeping
-// philo X is thinking
-// philo X died
+// start philo routine
+// 	assign each philo two forks
+// 	philo X is eating
+// 	philo X is sleeping
+// 	philo X is thinking
+// 	philo X died
 
 /*
+ * arguments
 binary
 number_of_philosophers
 time_to_die

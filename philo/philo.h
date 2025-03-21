@@ -32,6 +32,20 @@
 // pthread_mutex_destroy, pthread_mutex_loc, pthread_mutex_unlock
 # include <pthread.h>
 
+// predefined error codes
+# include <errno.h>
+
+typedef enum e_mode
+{
+	INIT,
+	LOCK,
+	UNLOCK,
+	CREATE,
+	JOIN,
+	DETACH,
+	DESTROY
+}	t_mode;
+
 typedef struct s_table	t_table;
 
 typedef struct s_fork
@@ -70,14 +84,19 @@ typedef struct s_table
 }	t_table;
 
 // input check 
-void	parse_args(int argc, char **argv, t_table *table);
-void	validate_args(int argc, t_table *table);
+void			parse_args(int argc, char **argv, t_table *table);
+void			validate_args(int argc, t_table *table);
 
 // init
-void	init_table(t_table *table);
+void			init_table(t_table *table);
 
 // utils
-long	ft_atol(char *str);
 unsigned long	get_time(void);
+long			ft_atol(char *str);
+void			error_exit(t_table *table, char *error);
+
+// safe functions
+void			safe_mutex(t_table *table, pthread_mutex_t *mutex, t_mode mode);
+void			handle_mutex_errors(t_table *table, int status, t_mode mode);
 
 #endif

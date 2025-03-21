@@ -43,5 +43,13 @@ unsigned long	get_time(void)
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return (((unsigned long)tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+void	error_exit(t_table *table, char *error)
+{
+	safe_mutex(table, &table->write_mutex, LOCK);
+	printf("%s", error);
+	safe_mutex(table, &table->write_mutex, UNLOCK);
+	exit(EXIT_FAILURE);
 }
