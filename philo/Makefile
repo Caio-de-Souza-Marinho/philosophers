@@ -8,7 +8,11 @@ SRC_DIR		= ./
 OBJ_DIR		= obj/
 INCLUDE		= -I .
 
-SRCS		= ${SRC_DIR}main.c
+SRCS		= ${SRC_DIR}main.c \
+		  ${SRC_DIR}input_check.c \
+		  ${SRC_DIR}utils.c \
+		  ${SRC_DIR}init.c \
+		  ${SRC_DIR}safe_functions.c \
 #SRCS_BONUS	= ${SRC_DIR}main_bonus.c
 
 OBJS		= ${SRCS:${SRC_DIR}%.c=${OBJ_DIR}%.o}
