@@ -29,8 +29,5 @@ void	validate_args(int argc, t_table *table)
 	if (table->nbr_philos <= 0 || table->time_to_die <= 0
 		|| table->time_to_eat <= 0 || table->time_to_sleep <= 0
 		|| (argc == 6 && table->nbr_meals <= 0))
-	{
 		printf("ERROR: Invalid argument (non-positive value)\n");
-		exit(EXIT_FAILURE);
-	}
 }

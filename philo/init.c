@@ -59,6 +59,7 @@ void	init_philos(t_table *table)
 		philo->table = table;
 		philo->last_meal_time = table->start_time;
 		safe_mutex(table, &philo->philo_mutex, INIT);
+		safe_mutex(table, &philo->meal_mutex, INIT);
 		i++;
 	}
 }

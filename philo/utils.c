@@ -51,10 +51,10 @@ void	print_message(t_philo *philo, char *msg)
 {
 	unsigned long	time;
 
-	pthread_mutex_lock(&philo->table->write_mutex);
 	time = get_time() - philo->table->start_time;
+	pthread_mutex_lock(&philo->table->write_mutex);
 	if (!philo->table->simulation_ended)
-		printf("%lu %d %s\n", time, philo->id, msg);
+		printf("%5lu  %3d  %s\n", time, philo->id, msg);
 	pthread_mutex_unlock(&philo->table->write_mutex);
 }
 
@@ -63,5 +63,4 @@ void	error_exit(t_table *table, char *error)
 	safe_mutex(table, &table->write_mutex, LOCK);
 	printf("%s", error);
 	safe_mutex(table, &table->write_mutex, UNLOCK);
-	exit(EXIT_FAILURE);
 }

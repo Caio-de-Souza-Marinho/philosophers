@@ -33,7 +33,7 @@ int	main(int argc, char **argv)
 	create_threads(&table);
 	//monitor(&table);
 	//	- create monitor thread
-	//	- infinite loop that contains a function
+	//	- infinite loop that contains the function
 	//	check philos
 	//		- checks if a philo is dead of if
 	//		all meals were eaten

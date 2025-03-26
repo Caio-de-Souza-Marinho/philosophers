@@ -40,9 +40,6 @@ typedef enum e_mode
 	INIT,
 	LOCK,
 	UNLOCK,
-	CREATE,
-	JOIN,
-	DETACH,
 	DESTROY
 }	t_mode;
 
@@ -62,6 +59,7 @@ typedef struct s_philo
 	t_fork			*left_fork;
 	pthread_t		thread_id;
 	pthread_mutex_t	philo_mutex;
+	pthread_mutex_t	meal_mutex;
 	unsigned long	last_meal_time;
 	t_table			*table;
 }	t_philo;
@@ -107,5 +105,7 @@ void			join_threads(t_table *table);
 // routine
 void			*one_philo(void *arg);
 void			*routine(void *arg);
+void			take_forks(t_philo *philo);
+void			eat_sleep_think(t_philo *philo);
 
 #endif
