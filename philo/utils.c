@@ -6,11 +6,12 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:26:25 by caide-so          #+#    #+#             */
-/*   Updated: 2025/03/17 22:54:16 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/03/25 21:41:21 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <pthread.h>
 
 long	ft_atol(char *str)
 {
@@ -44,6 +45,17 @@ unsigned long	get_time(void)
 
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+void	print_message(t_philo *philo, char *msg)
+{
+	unsigned long	time;
+
+	pthread_mutex_lock(&philo->table->write_mutex);
+	time = get_time() - philo->table->start_time;
+	if (!philo->table->simulation_ended)
+		printf("%lu %d %s\n", time, philo->id, msg);
+	pthread_mutex_unlock(&philo->table->write_mutex);
 }
 
 void	error_exit(t_table *table, char *error)
