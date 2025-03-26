@@ -6,15 +6,17 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:55:11 by caide-so          #+#    #+#             */
-/*   Updated: 2025/03/17 22:44:15 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/03/25 22:49:50 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/*
 void	print_table(t_table *table);
 void	print_forks(t_table *table);
 void	print_philos(t_table *table);
+*/
 
 int	main(int argc, char **argv)
 {
@@ -28,10 +30,18 @@ int	main(int argc, char **argv)
 	parse_args(argc, argv, &table);
 	validate_args(argc, &table);
 	init_table(&table);
-	print_table(&table);
+	create_threads(&table);
+	//monitor(&table);
+	//	- create monitor thread
+	//	- infinite loop that contains the function
+	//	check philos
+	//		- checks if a philo is dead of if
+	//		all meals were eaten
+	join_threads(&table);
 	return (0);
 }
 
+/*
 void	print_table(t_table *table)
 {
 	printf("number of philos - %d\n", table->nbr_philos);
@@ -74,6 +84,7 @@ void	print_philos(t_table *table)
 		i++;
 	}
 }
+*/
 
 // validate inputs
 // init simulation (parse data from arguments to the t_table struct)

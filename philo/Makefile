@@ -13,6 +13,8 @@ SRCS		= ${SRC_DIR}main.c \
 		  ${SRC_DIR}utils.c \
 		  ${SRC_DIR}init.c \
 		  ${SRC_DIR}safe_functions.c \
+		  ${SRC_DIR}threads.c \
+		  ${SRC_DIR}routine.c \
 #SRCS_BONUS	= ${SRC_DIR}main_bonus.c
 
 OBJS		= ${SRCS:${SRC_DIR}%.c=${OBJ_DIR}%.o}

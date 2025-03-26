@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:56:03 by caide-so          #+#    #+#             */
-/*   Updated: 2025/03/17 22:59:44 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/03/25 22:46:06 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,6 @@ typedef enum e_mode
 	INIT,
 	LOCK,
 	UNLOCK,
-	CREATE,
-	JOIN,
-	DETACH,
 	DESTROY
 }	t_mode;
 
@@ -62,6 +59,7 @@ typedef struct s_philo
 	t_fork			*left_fork;
 	pthread_t		thread_id;
 	pthread_mutex_t	philo_mutex;
+	pthread_mutex_t	meal_mutex;
 	unsigned long	last_meal_time;
 	t_table			*table;
 }	t_philo;
@@ -94,9 +92,20 @@ void			init_table(t_table *table);
 unsigned long	get_time(void);
 long			ft_atol(char *str);
 void			error_exit(t_table *table, char *error);
+void			print_message(t_philo *philo, char *msg);
 
 // safe functions
 void			safe_mutex(t_table *table, pthread_mutex_t *mutex, t_mode mode);
 void			handle_mutex_errors(t_table *table, int status, t_mode mode);
+
+// threads
+void			create_threads(t_table *table);
+void			join_threads(t_table *table);
+
+// routine
+void			*one_philo(void *arg);
+void			*routine(void *arg);
+void			take_forks(t_philo *philo);
+void			eat_sleep_think(t_philo *philo);
 
 #endif
