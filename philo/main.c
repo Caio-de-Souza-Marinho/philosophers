@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:55:11 by caide-so          #+#    #+#             */
-/*   Updated: 2025/03/25 21:49:15 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/03/25 22:49:50 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ int	main(int argc, char **argv)
 	validate_args(argc, &table);
 	init_table(&table);
 	create_threads(&table);
+	//monitor(&table);
+	//	- create monitor thread
+	//	- infinite loop that contains a function
+	//	check philos
+	//		- checks if a philo is dead of if
+	//		all meals were eaten
 	join_threads(&table);
 	return (0);
 }

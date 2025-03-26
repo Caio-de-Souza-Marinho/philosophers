@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:56:03 by caide-so          #+#    #+#             */
-/*   Updated: 2025/03/25 21:49:12 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/03/25 22:46:06 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,11 @@ void			safe_mutex(t_table *table, pthread_mutex_t *mutex, t_mode mode);
 void			handle_mutex_errors(t_table *table, int status, t_mode mode);
 
 // threads
-void	create_threads(t_table *table);
-void	*one_philo(void *arg);
-void	*routine(void *arg);
-void	join_threads(t_table *table);
+void			create_threads(t_table *table);
+void			join_threads(t_table *table);
+
+// routine
+void			*one_philo(void *arg);
+void			*routine(void *arg);
 
 #endif
