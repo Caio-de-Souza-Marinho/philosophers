@@ -51,6 +51,8 @@ void	take_forks(t_philo *philo)
 
 	msg = "has taken a fork";
 	if (philo->id % 2 == 0)
+		usleep(100);
+	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->left_fork->fork);
 		print_message(philo, msg);

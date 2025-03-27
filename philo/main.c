@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:55:11 by caide-so          #+#    #+#             */
-/*   Updated: 2025/03/25 22:49:50 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/03/26 21:52:48 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,9 @@ int	main(int argc, char **argv)
 	validate_args(argc, &table);
 	init_table(&table);
 	create_threads(&table);
-	//monitor(&table);
-	//	- create monitor thread
-	//	- infinite loop that contains the function
-	//	check philos
-	//		- checks if a philo is dead of if
-	//		all meals were eaten
+	monitor(&table);
 	join_threads(&table);
+	clean(&table);
 	return (0);
 }
 
@@ -84,24 +80,4 @@ void	print_philos(t_table *table)
 		i++;
 	}
 }
-*/
-
-// validate inputs
-// init simulation (parse data from arguments to the t_table struct)
-// init each philo
-// start philo routine
-// 	assign each philo two forks
-// 	philo X is eating
-// 	philo X is sleeping
-// 	philo X is thinking
-// 	philo X died
-
-/*
- * arguments
-binary
-number_of_philosophers
-time_to_die
-time_to_eat
-time_to_sleep
-[number_of_times_each_philosopher_must_eat]
 */
