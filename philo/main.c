@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:55:11 by caide-so          #+#    #+#             */
-/*   Updated: 2025/03/25 22:49:50 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/03/26 21:52:48 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 /*
 void	print_table(t_table *table);
-void	print_forks(t_table *table);
 void	print_philos(t_table *table);
+void	print_forks(t_table *table);
 */
 
 int	main(int argc, char **argv)
@@ -28,17 +28,14 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	}
 	parse_args(argc, argv, &table);
-	validate_args(argc, &table);
+	if (validate_args(argc, &table))
+		return (EXIT_FAILURE);
 	init_table(&table);
 	create_threads(&table);
-	//monitor(&table);
-	//	- create monitor thread
-	//	- infinite loop that contains the function
-	//	check philos
-	//		- checks if a philo is dead of if
-	//		all meals were eaten
+	monitor(&table);
 	join_threads(&table);
-	return (0);
+	clean(&table);
+	return (EXIT_SUCCESS);
 }
 
 /*
@@ -56,6 +53,21 @@ void	print_table(t_table *table)
 	print_philos(table);
 }
 
+void	print_philos(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	printf("==========PHILOS==========\n");
+	while (i < table->nbr_philos)
+	{
+		printf("philo %d ate %d meals\n", table->philos[i].id,
+			table->philos[i].meal_counter);
+		i++;
+	}
+	printf("===========END===========\n");
+}
+
 void	print_forks(t_table *table)
 {
 	int	i;
@@ -67,41 +79,4 @@ void	print_forks(t_table *table)
 		i++;
 	}
 }
-
-void	print_philos(t_table *table)
-{
-	int	i;
-
-	i = 0;
-	while (i < table->nbr_philos)
-	{
-		printf("==========PHILO %d==========\n", table->philos[i].id);
-		printf("philo id - %d\n", table->philos[i].id);
-		printf("meal counter - %d\n", table->philos[i].meal_counter);
-		printf("right fork id - %d\n", table->philos[i].right_fork->fork_id);
-		printf("left fork id - %d\n", table->philos[i].left_fork->fork_id);
-		printf("last meal time - %lu\n", table->philos[i].last_meal_time);
-		i++;
-	}
-}
-*/
-
-// validate inputs
-// init simulation (parse data from arguments to the t_table struct)
-// init each philo
-// start philo routine
-// 	assign each philo two forks
-// 	philo X is eating
-// 	philo X is sleeping
-// 	philo X is thinking
-// 	philo X died
-
-/*
- * arguments
-binary
-number_of_philosophers
-time_to_die
-time_to_eat
-time_to_sleep
-[number_of_times_each_philosopher_must_eat]
 */

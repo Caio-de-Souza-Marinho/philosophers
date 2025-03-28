@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:56:03 by caide-so          #+#    #+#             */
-/*   Updated: 2025/03/25 22:46:06 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/03/26 22:01:48 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ typedef struct s_philo
 	t_fork			*right_fork;
 	t_fork			*left_fork;
 	pthread_t		thread_id;
-	pthread_mutex_t	philo_mutex;
 	pthread_mutex_t	meal_mutex;
 	unsigned long	last_meal_time;
 	t_table			*table;
@@ -83,7 +82,7 @@ typedef struct s_table
 
 // input check 
 void			parse_args(int argc, char **argv, t_table *table);
-void			validate_args(int argc, t_table *table);
+int				validate_args(int argc, t_table *table);
 
 // init
 void			init_table(t_table *table);
@@ -107,5 +106,13 @@ void			*one_philo(void *arg);
 void			*routine(void *arg);
 void			take_forks(t_philo *philo);
 void			eat_sleep_think(t_philo *philo);
+
+// clean
+void			clean(t_table *table);
+
+// monitor
+void			monitor(t_table *table);
+int				check_philo_death(t_philo *philo, long time_to_die);
+int				check_all_meals(t_table *table);
 
 #endif

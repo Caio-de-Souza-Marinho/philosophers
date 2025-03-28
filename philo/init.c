@@ -58,7 +58,6 @@ void	init_philos(t_table *table)
 		philo->left_fork = &table->forks[(i + 1) % table->nbr_philos];
 		philo->table = table;
 		philo->last_meal_time = table->start_time;
-		safe_mutex(table, &philo->philo_mutex, INIT);
 		safe_mutex(table, &philo->meal_mutex, INIT);
 		i++;
 	}

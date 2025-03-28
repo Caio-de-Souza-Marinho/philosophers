@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <pthread.h>
 
 long	ft_atol(char *str)
 {
@@ -52,10 +51,10 @@ void	print_message(t_philo *philo, char *msg)
 	unsigned long	time;
 
 	time = get_time() - philo->table->start_time;
-	pthread_mutex_lock(&philo->table->write_mutex);
+	safe_mutex(philo->table, &philo->table->write_mutex, LOCK);
 	if (!philo->table->simulation_ended)
-		printf("%5lu  %3d  %s\n", time, philo->id, msg);
-	pthread_mutex_unlock(&philo->table->write_mutex);
+		printf("%lu %d %s\n", time, philo->id, msg);
+	safe_mutex(philo->table, &philo->table->write_mutex, UNLOCK);
 }
 
 void	error_exit(t_table *table, char *error)
@@ -63,4 +62,26 @@ void	error_exit(t_table *table, char *error)
 	safe_mutex(table, &table->write_mutex, LOCK);
 	printf("%s", error);
 	safe_mutex(table, &table->write_mutex, UNLOCK);
+}
+
+void	clean(t_table *table)
+{
+	int		i;
+
+	i = 0;
+	while (i < table->nbr_philos)
+	{
+		safe_mutex(table, &table->forks[i].fork, DESTROY);
+		i++;
+	}
+	i = 0;
+	while (i < table->nbr_philos)
+	{
+		safe_mutex(table, &table->philos[i].meal_mutex, DESTROY);
+		i++;
+	}
+	safe_mutex(table, &table->write_mutex, DESTROY);
+	safe_mutex(table, &table->sim_mutex, DESTROY);
+	free(table->forks);
+	free(table->philos);
 }
