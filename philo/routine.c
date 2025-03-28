@@ -17,10 +17,10 @@ void	*one_philo(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	pthread_mutex_lock(&philo->right_fork->fork);
+	safe_mutex(philo->table, &philo->right_fork->fork, LOCK);
 	print_message(philo, "has taken a fork");
 	usleep(philo->table->time_to_die * 1000);
-	pthread_mutex_unlock(&philo->right_fork->fork);
+	safe_mutex(philo->table, &philo->right_fork->fork, UNLOCK);
 	return (NULL);
 }
 
@@ -31,13 +31,20 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
-		pthread_mutex_lock(&philo->table->sim_mutex);
+		safe_mutex(philo->table, &philo->table->sim_mutex, LOCK);
 		if (philo->table->simulation_ended)
 		{
-			pthread_mutex_unlock(&philo->table->sim_mutex);
+			safe_mutex(philo->table, &philo->table->sim_mutex, UNLOCK);
 			break ;
 		}
-		pthread_mutex_unlock(&philo->table->sim_mutex);
+		safe_mutex(philo->table, &philo->table->sim_mutex, UNLOCK);
+		safe_mutex(philo->table, &philo->meal_mutex, LOCK);
+		if (philo->meal_counter >= philo->table->nbr_meals)
+		{
+			safe_mutex(philo->table, &philo->meal_mutex, UNLOCK);
+			break ;
+		}
+		safe_mutex(philo->table, &philo->meal_mutex, UNLOCK);
 		take_forks(philo);
 		eat_sleep_think(philo);
 		usleep(100);
@@ -54,32 +61,32 @@ void	take_forks(t_philo *philo)
 		usleep(100);
 	if (philo->id % 2 == 0)
 	{
-		pthread_mutex_lock(&philo->left_fork->fork);
+		safe_mutex(philo->table, &philo->left_fork->fork, LOCK);
 		print_message(philo, msg);
-		pthread_mutex_lock(&philo->right_fork->fork);
+		safe_mutex(philo->table, &philo->right_fork->fork, LOCK);
 		print_message(philo, msg);
 	}
 	else
 	{
-		pthread_mutex_lock(&philo->right_fork->fork);
+		safe_mutex(philo->table, &philo->right_fork->fork, LOCK);
 		print_message(philo, msg);
-		pthread_mutex_lock(&philo->left_fork->fork);
+		safe_mutex(philo->table, &philo->left_fork->fork, LOCK);
 		print_message(philo, msg);
 	}
 }
 
 void	eat_sleep_think(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->meal_mutex);
+	safe_mutex(philo->table, &philo->meal_mutex, LOCK);
 	philo->last_meal_time = get_time();
-	pthread_mutex_unlock(&philo->meal_mutex);
+	safe_mutex(philo->table, &philo->meal_mutex, UNLOCK);
 	print_message(philo, "is eating");
 	usleep(philo->table->time_to_eat * 1000);
-	pthread_mutex_lock(&philo->meal_mutex);
+	safe_mutex(philo->table, &philo->meal_mutex, LOCK);
 	philo->meal_counter++;
-	pthread_mutex_unlock(&philo->meal_mutex);
-	pthread_mutex_unlock(&philo->left_fork->fork);
-	pthread_mutex_unlock(&philo->right_fork->fork);
+	safe_mutex(philo->table, &philo->meal_mutex, UNLOCK);
+	safe_mutex(philo->table, &philo->left_fork->fork, UNLOCK);
+	safe_mutex(philo->table, &philo->right_fork->fork, UNLOCK);
 	print_message(philo, "is sleeping");
 	usleep(philo->table->time_to_sleep * 1000);
 	print_message(philo, "is thinking");
