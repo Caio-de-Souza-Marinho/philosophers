@@ -53,7 +53,7 @@ void	print_message(t_philo *philo, char *msg)
 	time = get_time() - philo->table->start_time;
 	pthread_mutex_lock(&philo->table->write_mutex);
 	if (!philo->table->simulation_ended)
-		printf("%5lu  %3d  %s\n", time, philo->id, msg);
+		printf("%lu %d %s\n", time, philo->id, msg);
 	pthread_mutex_unlock(&philo->table->write_mutex);
 }
 

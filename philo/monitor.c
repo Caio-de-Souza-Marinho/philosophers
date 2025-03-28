@@ -26,11 +26,11 @@ void	monitor(t_table *table)
 		while (i < table->nbr_philos)
 		{
 			if (check_philo_death(&table->philos[i], table->time_to_die))
-       				return ;
+				return ;
 			i++;
 		}
 		if (check_all_meals(table))
-      		{
+		{
 			safe_mutex(table, &table->sim_mutex, LOCK);
 			table->simulation_ended = 1;
 			safe_mutex(table, &table->sim_mutex, UNLOCK);
@@ -48,7 +48,7 @@ int	check_philo_death(t_philo *philo, long time_to_die)
 	is_dead = 0;
 	safe_mutex(philo->table, &philo->meal_mutex, LOCK);
 	time_since_meal = get_time() - philo->last_meal_time;
-	if (time_since_meal > (unsigned long)time_to_die)
+	if (time_since_meal > (unsigned long)time_to_die + 1)
 	{
 		safe_mutex(philo->table, &philo->table->sim_mutex, LOCK);
 		if (!philo->table->simulation_ended)

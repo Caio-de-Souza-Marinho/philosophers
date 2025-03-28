@@ -14,8 +14,8 @@
 
 /*
 void	print_table(t_table *table);
-void	print_forks(t_table *table);
 void	print_philos(t_table *table);
+void	print_forks(t_table *table);
 */
 
 int	main(int argc, char **argv)
@@ -28,13 +28,14 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	}
 	parse_args(argc, argv, &table);
-	validate_args(argc, &table);
+	if (validate_args(argc, &table))
+		return (EXIT_FAILURE);
 	init_table(&table);
 	create_threads(&table);
 	monitor(&table);
 	join_threads(&table);
 	clean(&table);
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 /*
@@ -52,6 +53,21 @@ void	print_table(t_table *table)
 	print_philos(table);
 }
 
+void	print_philos(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	printf("==========PHILOS==========\n");
+	while (i < table->nbr_philos)
+	{
+		printf("philo %d ate %d meals\n", table->philos[i].id,
+			table->philos[i].meal_counter);
+		i++;
+	}
+	printf("===========END===========\n");
+}
+
 void	print_forks(t_table *table)
 {
 	int	i;
@@ -60,23 +76,6 @@ void	print_forks(t_table *table)
 	while (i < table->nbr_philos)
 	{
 		printf("fork id - %d\n", table->forks[i].fork_id);
-		i++;
-	}
-}
-
-void	print_philos(t_table *table)
-{
-	int	i;
-
-	i = 0;
-	while (i < table->nbr_philos)
-	{
-		printf("==========PHILO %d==========\n", table->philos[i].id);
-		printf("philo id - %d\n", table->philos[i].id);
-		printf("meal counter - %d\n", table->philos[i].meal_counter);
-		printf("right fork id - %d\n", table->philos[i].right_fork->fork_id);
-		printf("left fork id - %d\n", table->philos[i].left_fork->fork_id);
-		printf("last meal time - %lu\n", table->philos[i].last_meal_time);
 		i++;
 	}
 }
