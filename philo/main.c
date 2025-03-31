@@ -25,17 +25,17 @@ int	main(int argc, char **argv)
 	if (argc != 5 && argc != 6)
 	{
 		printf("ERROR: Wrong number of arguments\n");
-		return (EXIT_FAILURE);
+		return (1);
 	}
 	parse_args(argc, argv, &table);
 	if (validate_args(argc, &table))
-		return (EXIT_FAILURE);
+		return (1);
 	init_table(&table);
 	create_threads(&table);
 	monitor(&table);
 	join_threads(&table);
 	clean(&table);
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 /*
