@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 22:45:27 by caide-so          #+#    #+#             */
-/*   Updated: 2025/03/25 22:46:25 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/04/02 22:35:50 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void	take_forks(t_philo *philo)
 		usleep(100);
 	if (philo->id % 2 == 0)
 	{
-		safe_mutex(philo->table, &philo->right_fork->fork, LOCK);
-		print_message(philo, msg);
 		safe_mutex(philo->table, &philo->left_fork->fork, LOCK);
+		print_message(philo, msg);
+		safe_mutex(philo->table, &philo->right_fork->fork, LOCK);
 		print_message(philo, msg);
 	}
 	else
