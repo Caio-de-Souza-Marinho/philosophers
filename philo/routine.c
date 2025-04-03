@@ -38,6 +38,13 @@ void	*routine(void *arg)
 			break ;
 		}
 		safe_mutex(philo->table, &philo->table->sim_mutex, UNLOCK);
+		safe_mutex(philo->table, &philo->meal_mutex, LOCK);
+		if (philo->meal_counter >= philo->table->nbr_meals)
+		{
+			safe_mutex(philo->table, &philo->meal_mutex, UNLOCK);
+			break ;
+		}
+		safe_mutex(philo->table, &philo->meal_mutex, UNLOCK);
 		take_forks(philo);
 		eat_sleep_think(philo);
 		usleep(100);
@@ -54,9 +61,9 @@ void	take_forks(t_philo *philo)
 		usleep(100);
 	if (philo->id % 2 == 0)
 	{
-		safe_mutex(philo->table, &philo->right_fork->fork, LOCK);
-		print_message(philo, msg);
 		safe_mutex(philo->table, &philo->left_fork->fork, LOCK);
+		print_message(philo, msg);
+		safe_mutex(philo->table, &philo->right_fork->fork, LOCK);
 		print_message(philo, msg);
 	}
 	else
