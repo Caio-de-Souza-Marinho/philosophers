@@ -36,6 +36,10 @@ void	monitor(t_table *table)
 			safe_mutex(table, &table->sim_mutex, UNLOCK);
 			return ;
 		}
+		safe_mutex(table, &table->sim_mutex, LOCK);
+		if (table->simulation_ended)
+			return ;
+		safe_mutex(table, &table->sim_mutex, UNLOCK);
 		usleep(1000);
 	}
 }

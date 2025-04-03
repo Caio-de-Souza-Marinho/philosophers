@@ -9,3 +9,4 @@ philo_bonus/philo_bonus
 *.nfs*
 lazy_philo/
 dan_philo/
+apagar.c

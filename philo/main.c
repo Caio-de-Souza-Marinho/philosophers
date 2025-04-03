@@ -12,12 +12,6 @@
 
 #include "philo.h"
 
-/*
-void	print_table(t_table *table);
-void	print_philos(t_table *table);
-void	print_forks(t_table *table);
-*/
-
 int	main(int argc, char **argv)
 {
 	t_table	table;	
@@ -37,6 +31,12 @@ int	main(int argc, char **argv)
 	clean(&table);
 	return (EXIT_SUCCESS);
 }
+
+/*
+void	print_table(t_table *table);
+void	print_philos(t_table *table);
+void	print_forks(t_table *table);
+*/
 
 /*
 void	print_table(t_table *table)
