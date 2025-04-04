@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:53:07 by caide-so          #+#    #+#             */
-/*   Updated: 2025/04/01 21:59:27 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/04/04 10:36:42 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,16 @@ unsigned long	get_time(void);
 long			ft_atol(char *str);
 void			clean(t_table *table);
 void			error_exit(char *error);
+void			print_message(t_table *table, t_philo *philo, char *msg);
 
 // init
 void			init_table(t_table *table);
 void			init_sems(t_table *table);
+
+// processes
+void	spawn_philos(t_table *table);
+
+// routine
+void	routine(t_table *table, t_philo *philo);
 
 #endif

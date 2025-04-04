@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:52:29 by caide-so          #+#    #+#             */
-/*   Updated: 2025/04/01 22:03:41 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/04/04 10:45:58 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,34 +31,10 @@ int	main(int argc, char **argv)
 		return (1);
 	init_table(&table);
 	spawn_philos(&table);
-	print_table(&table);
+	//print_table(&table);
 	//TODO: monitor(&table);
 	clean(&table);
 	return (0);
-}
-
-void	spawn_philos(t_table *table)
-{
-	pid_t	pid;
-	int		i;
-
-	i = 0;
-	while (i < table->nbr_philos)
-	{
-		table->philos[i].id = i + 1;
-		pid = fork();
-		if (pid < 0)
-			error_exit("Fork error");
-		else if (pid == 0)
-		{
-			//TODO: routine(table->philo[i]);
-			printf("this is a child process\n");
-			exit(EXIT_FAILURE);
-		}
-		else
-			table->philos[i].pid = pid;
-		i++;
-	}
 }
 
 void	print_table(t_table *table)

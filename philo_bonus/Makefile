@@ -11,6 +11,8 @@ SRCS		= ${SRC_DIR}main_bonus.c \
 		  ${SRC_DIR}input_check_bonus.c \
 		  ${SRC_DIR}utils_bonus.c \
 		  ${SRC_DIR}init_bonus.c \
+		  ${SRC_DIR}processes_bonus.c \
+		  ${SRC_DIR}routine_bonus.c \
 
 OBJS		= ${SRCS:${SRC_DIR}%.c=${OBJ_DIR}%.o}
 

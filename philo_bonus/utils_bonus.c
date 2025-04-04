@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:34:17 by caide-so          #+#    #+#             */
-/*   Updated: 2025/04/01 21:59:01 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/04/04 12:39:25 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,16 @@ unsigned long	get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
+void	print_message(t_table *table, t_philo *philo, char *msg)
+{
+	unsigned long	time;
+
+	time = get_time() - table->start_time;
+	sem_wait(table->write);
+	printf("%lu %d %s\n", time, philo->id, msg);
+	sem_post(table->write);
+}
+
 void	error_exit(char *error)
 {
 	printf("%s\n", error);
@@ -62,4 +72,6 @@ void	clean(t_table *table)
 	sem_unlink(WRITE);
 	sem_unlink(SIM_END);
 	sem_unlink(MEALS_EATEN);
+	if (table->philos)
+		free(table->philos);
 }
