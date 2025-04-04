@@ -92,10 +92,11 @@ unsigned long	get_time(void);
 long			ft_atol(char *str);
 void			error_exit(t_table *table, char *error);
 void			print_message(t_philo *philo, char *msg);
+int				ft_strcmp(const char *s1, const char *s2);
 
 // safe functions
 void			safe_mutex(t_table *table, pthread_mutex_t *mutex, t_mode mode);
-void			handle_mutex_errors(t_table *table, int status, t_mode mode);
+void			handle_mutex_errors(int status, t_mode mode);
 
 // threads
 void			create_threads(t_table *table);

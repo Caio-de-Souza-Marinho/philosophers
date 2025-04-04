@@ -10,3 +10,4 @@ philo_bonus/philo_bonus
 lazy_philo/
 dan_philo/
 apagar.c
+helgrind_log.txt
