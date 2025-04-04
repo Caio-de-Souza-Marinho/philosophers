@@ -17,6 +17,7 @@ void	init_sems(t_table *table);
 void	init_table(t_table *table)
 {
 	table->start_time = get_time();
+	table->philos = (t_philo *)malloc((sizeof(t_philo) * table->nbr_philos));
 	init_sems(table);
 }
 
