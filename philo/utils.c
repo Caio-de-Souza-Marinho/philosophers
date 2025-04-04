@@ -50,11 +50,20 @@ void	print_message(t_philo *philo, char *msg)
 {
 	unsigned long	time;
 
+	if (ft_strcmp(msg, "is dead") != 0)
+	{
+		safe_mutex(philo->table, &philo->table->sim_mutex, LOCK);
+		if (philo->table->simulation_ended)
+		{
+			safe_mutex(philo->table, &philo->table->sim_mutex, UNLOCK);
+			return ;
+		}
+		safe_mutex(philo->table, &philo->table->sim_mutex, UNLOCK);
+	}
+	safe_mutex(philo->table, &philo->table->write_mutex, LOCK);
 	time = get_time() - philo->table->start_time;
-	pthread_mutex_lock(&philo->table->write_mutex);
-	if (!philo->table->simulation_ended)
-		printf("%lu %d %s\n", time, philo->id, msg);
-	pthread_mutex_unlock(&philo->table->write_mutex);
+	printf("%lu %d %s\n", time, philo->id, msg);
+	safe_mutex(philo->table, &philo->table->write_mutex, UNLOCK);
 }
 
 void	error_exit(t_table *table, char *error)
@@ -68,20 +77,26 @@ void	clean(t_table *table)
 {
 	int		i;
 
-	i = 0;
-	while (i < table->nbr_philos)
+	if (table->forks)
 	{
-		safe_mutex(table, &table->forks[i].fork, DESTROY);
-		i++;
+		i = 0;
+		while (i < table->nbr_philos)
+		{
+			safe_mutex(table, &table->forks[i].fork, DESTROY);
+			i++;
+		}
+		free(table->forks);
 	}
-	i = 0;
-	while (i < table->nbr_philos)
+	if (table->philos)
 	{
-		safe_mutex(table, &table->philos[i].meal_mutex, DESTROY);
-		i++;
+		i = 0;
+		while (i < table->nbr_philos)
+		{
+			safe_mutex(table, &table->philos[i].meal_mutex, DESTROY);
+			i++;
+		}
+		free(table->philos);
 	}
 	safe_mutex(table, &table->write_mutex, DESTROY);
 	safe_mutex(table, &table->sim_mutex, DESTROY);
-	free(table->forks);
-	free(table->philos);
 }

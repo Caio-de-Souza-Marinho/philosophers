@@ -15,34 +15,34 @@
 void	safe_mutex(t_table *table, pthread_mutex_t *mutex, t_mode mode)
 {
 	if (mode == INIT)
-		handle_mutex_errors(table, pthread_mutex_init(mutex, NULL), mode);
+		handle_mutex_errors(pthread_mutex_init(mutex, NULL), mode);
 	else if (mode == LOCK)
-		handle_mutex_errors(table, pthread_mutex_lock(mutex), mode);
+		handle_mutex_errors(pthread_mutex_lock(mutex), mode);
 	else if (mode == UNLOCK)
-		handle_mutex_errors(table, pthread_mutex_unlock(mutex), mode);
+		handle_mutex_errors(pthread_mutex_unlock(mutex), mode);
 	else if (mode == DESTROY)
-		handle_mutex_errors(table, pthread_mutex_destroy(mutex), mode);
+		handle_mutex_errors(pthread_mutex_destroy(mutex), mode);
 	else
 		error_exit(table, "Mutex code error\n");
 }
 
-void	handle_mutex_errors(t_table *table, int status, t_mode mode)
+void	handle_mutex_errors(int status, t_mode mode)
 {
 	if (status == 0)
 		return ;
 	if (status == EINVAL && (mode == LOCK || mode == UNLOCK
 			|| mode == DESTROY))
-		error_exit(table, "Invalid mutex operation\n");
+		printf("Invalid mutex operation\n");
 	else if (status == EINVAL && (mode == INIT))
-		error_exit(table, "Invalid attr for mutex init\n");
+		printf("Invalid attr for mutex init\n");
 	else if (status == EDEADLK)
-		error_exit(table, "Deadlock detected\n");
+		printf("Deadlock detected\n");
 	else if (status == EPERM)
-		error_exit(table, "Permission denied\n");
+		printf("Permission denied\n");
 	else if (status == ENOMEM)
-		error_exit(table, "Out of memory\n");
+		printf("Out of memory\n");
 	else if (status == EBUSY)
-		error_exit(table, "Mutex is locked\n");
+		printf("Mutex is locked\n");
 	else
-		error_exit(table, "Unknown mutex error\n");
+		printf("Unknown mutex error\n");
 }

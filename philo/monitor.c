@@ -52,19 +52,21 @@ int	check_philo_death(t_philo *philo, long time_to_die)
 	is_dead = 0;
 	safe_mutex(philo->table, &philo->meal_mutex, LOCK);
 	time_since_meal = get_time() - philo->last_meal_time;
-	if (time_since_meal > (unsigned long)time_to_die + 1)
-	{
-		safe_mutex(philo->table, &philo->table->sim_mutex, LOCK);
-		if (!philo->table->simulation_ended)
-		{
-			print_message(philo, "is dead");
-			philo->table->simulation_ended = 1;
-			is_dead = 1;
-		}
-		safe_mutex(philo->table, &philo->table->sim_mutex, UNLOCK);
-	}
 	safe_mutex(philo->table, &philo->meal_mutex, UNLOCK);
-	return (is_dead);
+	safe_mutex(philo->table, &philo->table->sim_mutex, LOCK);
+	if (!philo->table->simulation_ended
+		&& time_since_meal > (unsigned long)time_to_die + 1)
+	{
+		philo->table->simulation_ended = 1;
+		is_dead = 1;
+	}
+	safe_mutex(philo->table, &philo->table->sim_mutex, UNLOCK);
+	if (is_dead)
+	{
+		print_message(philo, "is dead");
+		return (1);
+	}
+	return (0);
 }
 
 int	check_all_meals(t_table *table)
@@ -87,4 +89,18 @@ int	check_all_meals(t_table *table)
 		i++;
 	}
 	return (all_ate);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t	i;
+
+	i = 0;
+	while ((s1[i] || s2[i]))
+	{
+		if ((unsigned char)s1[i] != (unsigned char)s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	return (0);
 }
