@@ -13,6 +13,7 @@ SRCS		= ${SRC_DIR}main_bonus.c \
 		  ${SRC_DIR}init_bonus.c \
 		  ${SRC_DIR}processes_bonus.c \
 		  ${SRC_DIR}routine_bonus.c \
+		  ${SRC_DIR}monitor_bonus.c \
 
 OBJS		= ${SRCS:${SRC_DIR}%.c=${OBJ_DIR}%.o}
 

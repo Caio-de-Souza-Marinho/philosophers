@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:53:07 by caide-so          #+#    #+#             */
-/*   Updated: 2025/04/04 10:36:42 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/04/05 17:16:23 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ typedef struct s_philo
 {
 	pid_t			pid;
 	int				id;
+	unsigned long	last_meal_time;
+	int				meals_eaten;
+	t_table			*table;
 }	t_philo;
 
 typedef struct s_table
@@ -94,9 +97,17 @@ void			init_table(t_table *table);
 void			init_sems(t_table *table);
 
 // processes
-void	spawn_philos(t_table *table);
+void			spawn_philos(t_table *table);
 
 // routine
-void	routine(t_table *table, t_philo *philo);
+void			routine(t_table *table, t_philo *philo);
+void			one_philo_routine(t_table *table, t_philo *philo);
+void			philos_routine(t_table *table, t_philo *philo);
+void			take_forks(t_table *table, t_philo *philo);
+void			eat_sleep_think(t_table *table, t_philo *philo);
+
+// monitor
+void			*monitor(void *arg);
+void			*monitor_meals(void *arg);
 
 #endif

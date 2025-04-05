@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 	}
 	parse_args(argc, argv, &table);
 	if (validate_args(argc, &table))
-		return (EXIT_FAILURE);
+		return (1);
 	init_table(&table);
 	create_threads(&table);
 	monitor(&table);

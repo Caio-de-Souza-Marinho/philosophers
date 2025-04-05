@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:10:16 by caide-so          #+#    #+#             */
-/*   Updated: 2025/04/04 12:41:01 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/04/05 17:09:49 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	spawn_philos(t_table *table)
 	while (i < table->nbr_philos)
 	{
 		table->philos[i].id = i + 1;
+		table->philos[i].table = table;
 		pid = fork();
 		if (pid < 0)
 			error_exit("Fork error");

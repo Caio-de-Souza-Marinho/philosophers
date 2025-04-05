@@ -64,6 +64,14 @@ void	error_exit(char *error)
 
 void	clean(t_table *table)
 {
+	int	i;
+
+	i = 0 ;
+	while (i < table->nbr_philos)
+	{
+		kill(table->philos[i].pid, SIGTERM);
+		i++;
+	}
 	sem_close(table->forks);
 	sem_close(table->write);
 	sem_close(table->sim_end);
