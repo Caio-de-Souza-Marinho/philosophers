@@ -72,14 +72,18 @@ void	clean(t_table *table)
 		kill(table->philos[i].pid, SIGTERM);
 		i++;
 	}
-	sem_close(table->forks);
-	sem_close(table->write);
-	sem_close(table->sim_end);
-	sem_close(table->meals_eaten);
-	sem_unlink(FORKS);
-	sem_unlink(WRITE);
-	sem_unlink(SIM_END);
-	sem_unlink(MEALS_EATEN);
+	if (table->forks != SEM_FAILED)
+		sem_close(table->forks);
+	if (table->write != SEM_FAILED)
+		sem_close(table->write);
+	if (table->sim_end != SEM_FAILED)
+		sem_close(table->sim_end);
+	if (table->meals_eaten != SEM_FAILED)
+		sem_close(table->meals_eaten);
+	if (table->max_philos != SEM_FAILED)
+		sem_close(table->max_philos);
+	if (table->meal_time != SEM_FAILED)
+		sem_close(table->meal_time);
 	if (table->philos)
 		free(table->philos);
 }

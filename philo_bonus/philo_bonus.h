@@ -18,6 +18,8 @@
 # define WRITE "/write"
 # define SIM_END "/sim_end"
 # define MEALS_EATEN "/meals_eaten"
+# define MAX_PH "/max_philos"
+# define MEAL_TIME "/meal_time"
 
 // to use memset
 # include <string.h>
@@ -78,6 +80,8 @@ typedef struct s_table
 	sem_t			*write;
 	sem_t			*sim_end;
 	sem_t			*meals_eaten;
+	sem_t			*max_philos;
+	sem_t			*meal_time;
 	t_philo			*philos;
 }	t_table;
 
@@ -91,6 +95,7 @@ long			ft_atol(char *str);
 void			clean(t_table *table);
 void			error_exit(char *error);
 void			print_message(t_table *table, t_philo *philo, char *msg);
+void			unlink_all(void);
 
 // init
 void			init_table(t_table *table);

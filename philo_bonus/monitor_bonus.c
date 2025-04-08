@@ -14,18 +14,24 @@
 
 void	*monitor(void *arg)
 {
-	t_philo	*philo;
-	t_table	*table;
+	t_philo			*philo;
+	t_table			*table;
+	unsigned long	current_time;
+	unsigned long	last_meal;
 
 	philo = (t_philo *)arg;
 	table = philo->table;
 	while (1)
 	{
-		if (get_time() - philo->last_meal_time
-			>= (unsigned long)table->time_to_die + 1)
+		sem_wait(table->meal_time);
+		current_time = get_time();
+		last_meal = philo->last_meal_time;
+		sem_post(table->meal_time);
+		if (current_time - last_meal > (unsigned long)table->time_to_die + 1)
 		{
 			print_message(table, philo, "is dead");
 			sem_post(table->sim_end);
+			usleep(1000);
 			exit(EXIT_FAILURE);
 		}
 		usleep(1000);
