@@ -25,6 +25,12 @@ void	routine(t_table *table, t_philo *philo)
 		one_philo_routine(table, philo);
 	else
 		philos_routine(table, philo);
+	sem_close(table->forks);
+	sem_close(table->write);
+	sem_close(table->sim_end);
+	sem_close(table->meals_eaten);
+	sem_close(table->max_philos);
+	sem_close(table->meal_time);
 }
 
 void	one_philo_routine(t_table *table, t_philo *philo)
@@ -44,9 +50,12 @@ void	philos_routine(t_table *table, t_philo *philo)
 			&& philo->meals_eaten >= table->nbr_meals)
 		{
 			sem_post(table->meals_eaten);
-			exit(EXIT_SUCCESS);
+			break ;
 		}
 	}
+	sem_close(table->forks);
+	sem_close(table->write);
+	exit(EXIT_SUCCESS);
 }
 
 void	take_forks(t_table *table, t_philo *philo)

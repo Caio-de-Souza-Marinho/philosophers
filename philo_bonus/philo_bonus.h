@@ -114,5 +114,6 @@ void			eat_sleep_think(t_table *table, t_philo *philo);
 // monitor
 void			*monitor(void *arg);
 void			*monitor_meals(void *arg);
+void			monitor_processes(t_table *table);
 
 #endif

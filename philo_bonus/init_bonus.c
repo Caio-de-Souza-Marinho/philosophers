@@ -36,7 +36,7 @@ void	init_sems(t_table *table)
 	table->write = sem_open(WRITE, O_CREAT, 0644, 1);
 	clean_exit(table, table->write, "Failed to create write semaphore");
 	table->sim_end = sem_open(SIM_END, O_CREAT, 0644, 0);
-	clean_exit(table, table->sim_end, "Failed to create meals_eaten semaphore");
+	clean_exit(table, table->sim_end, "Failed to create sim_end semaphore");
 	table->meals_eaten = sem_open(MEALS_EATEN, O_CREAT, 0644, 0);
 	clean_exit(table, table->meals_eaten, "Failed meals_eaten semaphore");
 	table->max_philos = sem_open(MAX_PH, O_CREAT, 0644, table->nbr_philos - 1);

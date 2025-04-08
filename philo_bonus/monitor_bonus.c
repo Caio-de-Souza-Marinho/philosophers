@@ -31,7 +31,6 @@ void	*monitor(void *arg)
 		{
 			print_message(table, philo, "is dead");
 			sem_post(table->sim_end);
-			usleep(1000);
 			exit(EXIT_FAILURE);
 		}
 		usleep(1000);
@@ -53,4 +52,24 @@ void	*monitor_meals(void *arg)
 	}
 	sem_post(table->sim_end);
 	return (NULL);
+}
+
+void	monitor_processes(t_table *table)
+{
+	int	status;
+	int	i;
+	pid_t	pid;
+
+	pid = waitpid(-1, &status, 0);
+	if (WIFEXITED(status) || WIFSIGNALED(status))
+	{
+		i = 0;
+		while (i < table->nbr_philos)
+		{
+			kill(table->philos[i].pid, SIGKILL);
+			i++;
+		}
+		sem_post(table->sim_end);
+	}
+	(void)pid;
 }

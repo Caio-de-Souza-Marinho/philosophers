@@ -69,7 +69,7 @@ void	clean(t_table *table)
 	i = 0 ;
 	while (i < table->nbr_philos)
 	{
-		kill(table->philos[i].pid, SIGTERM);
+		kill(table->philos[i].pid, SIGKILL);
 		i++;
 	}
 	if (table->forks != SEM_FAILED)
@@ -84,6 +84,7 @@ void	clean(t_table *table)
 		sem_close(table->max_philos);
 	if (table->meal_time != SEM_FAILED)
 		sem_close(table->meal_time);
+	unlink_all();
 	if (table->philos)
 		free(table->philos);
 }

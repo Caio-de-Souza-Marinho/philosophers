@@ -22,6 +22,7 @@ void	spawn_philos(t_table *table)
 	{
 		table->philos[i].id = i + 1;
 		table->philos[i].table = table;
+		table->philos[i].meals_eaten = 0;
 		pid = fork();
 		if (pid < 0)
 			error_exit("Fork error");

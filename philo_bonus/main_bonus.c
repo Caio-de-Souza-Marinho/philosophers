@@ -16,6 +16,7 @@ int	main(int argc, char **argv)
 {
 	t_table		table;
 	pthread_t	meals_thread;
+	pthread_t	monitor_thread;
 
 	if (argc != 5 && argc != 6)
 	{
@@ -32,8 +33,11 @@ int	main(int argc, char **argv)
 		pthread_create(&meals_thread, NULL, monitor_meals, &table);
 		pthread_detach(meals_thread);
 	}
+	pthread_create(&monitor_thread, NULL, (void *)monitor_processes, &table);
+	pthread_detach(monitor_thread);
 	sem_wait(table.sim_end);
 	clean(&table);
+	unlink_all();
 	return (0);
 }
 
