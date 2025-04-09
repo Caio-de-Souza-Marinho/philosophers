@@ -37,25 +37,32 @@ int	main(int argc, char **argv)
 		close_all_sems(&table);
 		clean(&table);
 	}
+	else
+	{
+		start_philo(&table);
+		close_all_sems(&table);
+		clean(&table);
+	}
 	return (0);
 }
 
 pid_t	single_philo(t_table *table)
 {
 	pid_t	pid;
-	t_philo	*ph;
+	t_philo	*philo;
 
-	ph = &table->philos[0];
+	philo = &table->philos[0];
 	pid = fork();
 	if (pid == -1)
 		error_exit("Fork error");
 	else if (pid == 0)
 	{
-		ph->last_meal_time = get_time();
+		table->start_time = get_time();
+		philo->death_time = table->time_to_die - get_time();
 		sem_wait(table->forks);
-		print_message(table, ph, "has taken a fork");
+		print_message(table, philo, "has taken a fork");
 		usleep(table->time_to_die * 1000);
-		print_message(table, ph, "died");
+		print_message(table, philo, "died");
 		sem_close(table->write);
 		sem_close(table->forks);
 		clean(table);

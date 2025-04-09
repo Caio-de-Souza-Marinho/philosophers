@@ -12,34 +12,78 @@
 
 #include "philo_bonus.h"
 
-void	routine(t_table *table, t_philo *philo)
-{
-	pthread_t	monitor_thread;
+void	take_process(t_table *table);
+void	wait_forks(t_philo *philo);
+void	kill_process(t_table *table);
+void	look_up(t_philo *philo);
 
-	sem_wait(table->meal_time);
-	philo->last_meal_time = get_time();
-	sem_post(table->meal_time);
-	pthread_create(&monitor_thread, NULL, monitor, philo);
-	pthread_detach(monitor_thread);
-	if (table->nbr_philos == 1)
-		one_philo_routine(table, philo);
+void	start_philo(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	table->start_time = get_time();
+	while (i < table->nbr_philos)
+	{
+		routine(table, i);
+		usleep(1);
+		i++;
+	}
+	take_process(table);
+}
+
+void	routine(t_table *table, int id)
+{
+	pid_t	pid;
+	t_philo	*philo;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		philo = &table->philos[id];
+		philo->death_time = table->time_to_die + get_time();
+		if (philo->id % 2 == 0)
+			usleep(500);
+		while (philo->meals_eaten != 0)
+			eat_sleep_think(table, philo);
+		sem_close(table->write);
+		sem_close(table->forks);
+		clean(table);
+		exit(EXIT_SUCCESS);
+	}
 	else
-		philos_routine(table, philo);
-	sem_close(table->forks);
-	sem_close(table->write);
-	sem_close(table->sim_end);
-	sem_close(table->meals_eaten);
-	sem_close(table->max_philos);
-	sem_close(table->meal_time);
+		table->philos[id].pid = pid;
 }
 
-void	one_philo_routine(t_table *table, t_philo *philo)
+void	take_process(t_table *table)
 {
-	print_message(table, philo, "has taken a fork");
-	while (1)
-		usleep(1000);
+	int	i;
+	int	status;
+
+	i = 0;
+	while (i < table->nbr_philos)
+	{
+		waitpid(-1, &status, 0);
+		if (WIFEXITED(status))
+			if (WEXITSTATUS(status) == EXIT_FAILURE)
+				return (kill_process(table));
+		i++;
+	}
 }
 
+void	kill_process(t_table *table)
+{
+	int	i;
+
+	i = 0 ;
+	while (i < table->nbr_philos)
+	{
+		kill(table->philos[i].pid, SIGKILL);
+		i++;
+	}
+}
+
+/*
 void	philos_routine(t_table *table, t_philo *philo)
 {
 	while (1)
@@ -57,29 +101,47 @@ void	philos_routine(t_table *table, t_philo *philo)
 	sem_close(table->write);
 	exit(EXIT_SUCCESS);
 }
+*/
+
+void	eat_sleep_think(t_table *table, t_philo *philo)
+{
+	take_forks(table, philo);
+	philo->death_time = table->time_to_die + get_time();
+	look_up(philo);
+	print_message(table, philo, "is eating");
+	philo->meals_eaten--;
+	look_up(philo);
+	usleep(table->time_to_eat * 1000);
+	sem_post(table->forks);
+	sem_post(table->forks);
+	print_message(table, philo, "is sleeping");
+	usleep(table->time_to_sleep * 1000);
+	print_message(table, philo, "is thinking");
+}
 
 void	take_forks(t_table *table, t_philo *philo)
 {
-	usleep(100 * (philo->id % 3));
-	sem_wait(table->max_philos);
+	wait_forks(philo);
 	sem_wait(table->forks);
 	print_message(table, philo, "has taken a fork");
 	sem_wait(table->forks);
 	print_message(table, philo, "has taken a fork");
 }
 
-void	eat_sleep_think(t_table *table, t_philo *philo)
+void	wait_forks(t_philo *philo)
 {
-	print_message(table, philo, "is eating");
-	sem_wait(table->meal_time);
-	philo->last_meal_time = get_time();
-	sem_post(table->meal_time);
-	usleep(table->time_to_eat * 1000);
-	philo->meals_eaten++;
-	sem_post(table->forks);
-	sem_post(table->forks);
-	sem_post(table->max_philos);
-	print_message(table, philo, "is sleeping");
-	usleep(table->time_to_sleep * 1000);
-	print_message(table, philo, "is thinking");
+	while (*(int16_t *)philo->table->forks < 2)
+		look_up(philo);
+}
+
+void	look_up(t_philo *philo)
+{
+	if (get_time() >= (unsigned long)philo->death_time + 1)
+	{
+		print_message(philo->table, philo, "died");
+		sem_close(philo->table->write);
+		sem_close(philo->table->forks);
+		clean(philo->table);
+		exit(EXIT_FAILURE);
+	}
 }

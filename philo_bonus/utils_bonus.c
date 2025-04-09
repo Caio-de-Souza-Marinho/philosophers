@@ -73,29 +73,6 @@ void	error_exit(char *error)
 
 void	clean(t_table *table)
 {
-	/*
-	int	i;
-
-	i = 0 ;
-	while (i < table->nbr_philos)
-	{
-		kill(table->philos[i].pid, SIGKILL);
-		i++;
-	}
-	if (table->forks != SEM_FAILED)
-		sem_close(table->forks);
-	if (table->write != SEM_FAILED)
-		sem_close(table->write);
-	if (table->sim_end != SEM_FAILED)
-		sem_close(table->sim_end);
-	if (table->meals_eaten != SEM_FAILED)
-		sem_close(table->meals_eaten);
-	if (table->max_philos != SEM_FAILED)
-		sem_close(table->max_philos);
-	if (table->meal_time != SEM_FAILED)
-		sem_close(table->meal_time);
-	unlink_all();
-	*/
 	if (table->philos)
 	{
 		free(table->philos);

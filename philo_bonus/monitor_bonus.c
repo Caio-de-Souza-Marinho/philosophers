@@ -12,6 +12,7 @@
 
 #include "philo_bonus.h"
 
+/*
 void	*monitor(void *arg)
 {
 	t_philo			*philo;
@@ -73,3 +74,4 @@ void	monitor_processes(t_table *table)
 	}
 	(void)pid;
 }
+*/

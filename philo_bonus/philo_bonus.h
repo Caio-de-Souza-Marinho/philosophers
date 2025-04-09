@@ -65,6 +65,7 @@ typedef struct s_philo
 	int				id;
 	unsigned long	last_meal_time;
 	int				meals_eaten;
+	unsigned long	death_time;
 	t_table			*table;
 }	t_philo;
 
@@ -78,10 +79,6 @@ typedef struct s_table
 	unsigned long	start_time;
 	sem_t			*forks;
 	sem_t			*write;
-	sem_t			*sim_end;
-	sem_t			*meals_eaten;
-	sem_t			*max_philos;
-	sem_t			*meal_time;
 	t_philo			*philos;
 }	t_table;
 
@@ -106,11 +103,13 @@ void			init_sems(t_table *table);
 void			spawn_philos(t_table *table);
 
 // routine
-void			routine(t_table *table, t_philo *philo);
+void			start_philo(t_table *table);
+void			routine(t_table *table, int id);
 void			one_philo_routine(t_table *table, t_philo *philo);
 void			philos_routine(t_table *table, t_philo *philo);
 void			take_forks(t_table *table, t_philo *philo);
 void			eat_sleep_think(t_table *table, t_philo *philo);
+void			kill_process(t_table *table);
 
 // monitor
 void			*monitor(void *arg);
