@@ -29,7 +29,7 @@ void	*monitor(void *arg)
 		sem_post(table->meal_time);
 		if (current_time - last_meal > (unsigned long)table->time_to_die + 1)
 		{
-			print_message(table, philo, "is dead");
+			print_message(table, philo, "died");
 			sem_post(table->sim_end);
 			exit(EXIT_FAILURE);
 		}
