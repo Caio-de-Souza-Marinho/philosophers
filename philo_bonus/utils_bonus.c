@@ -51,9 +51,18 @@ void	print_message(t_table *table, t_philo *philo, char *msg)
 	unsigned long	time;
 
 	time = get_time() - table->start_time;
-	sem_wait(table->write);
-	printf("%lu %d %s\n", time, philo->id, msg);
-	sem_post(table->write);
+	if (ft_strcmp(msg, "died") == 0)
+	{
+		sem_wait(table->write);
+		printf("%lu %d %s\n", time, philo->id, msg);
+		return ;
+	}
+	else
+	{
+		sem_wait(table->write);
+		printf("%lu %d %s\n", time, philo->id, msg);
+		sem_post(table->write);
+	}
 }
 
 void	error_exit(char *error)
@@ -64,6 +73,7 @@ void	error_exit(char *error)
 
 void	clean(t_table *table)
 {
+	/*
 	int	i;
 
 	i = 0 ;
@@ -85,6 +95,10 @@ void	clean(t_table *table)
 	if (table->meal_time != SEM_FAILED)
 		sem_close(table->meal_time);
 	unlink_all();
+	*/
 	if (table->philos)
+	{
 		free(table->philos);
+		table->philos = NULL;
+	}
 }

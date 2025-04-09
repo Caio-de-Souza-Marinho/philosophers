@@ -96,6 +96,7 @@ void			clean(t_table *table);
 void			error_exit(char *error);
 void			print_message(t_table *table, t_philo *philo, char *msg);
 void			unlink_all(void);
+int				ft_strcmp(const char *s1, const char *s2);
 
 // init
 void			init_table(t_table *table);

@@ -14,7 +14,7 @@
 
 void	spawn_philos(t_table *table)
 {
-	pid_t	pid;
+	//pid_t	pid;
 	int		i;
 
 	i = 0;
@@ -22,7 +22,8 @@ void	spawn_philos(t_table *table)
 	{
 		table->philos[i].id = i + 1;
 		table->philos[i].table = table;
-		table->philos[i].meals_eaten = 0;
+		table->philos[i].meals_eaten = table->nbr_meals;
+		/*
 		pid = fork();
 		if (pid < 0)
 			error_exit("Fork error");
@@ -33,6 +34,7 @@ void	spawn_philos(t_table *table)
 		}
 		else
 			table->philos[i].pid = pid;
+		*/
 		i++;
 	}
 }
