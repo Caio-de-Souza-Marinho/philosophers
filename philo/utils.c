@@ -50,7 +50,7 @@ void	print_message(t_philo *philo, char *msg)
 {
 	unsigned long	time;
 
-	if (ft_strcmp(msg, "is dead") != 0)
+	if (ft_strcmp(msg, "died") != 0)
 	{
 		safe_mutex(philo->table, &philo->table->sim_mutex, LOCK);
 		if (philo->table->simulation_ended)

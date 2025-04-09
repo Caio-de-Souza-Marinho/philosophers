@@ -63,7 +63,7 @@ int	check_philo_death(t_philo *philo, long time_to_die)
 	safe_mutex(philo->table, &philo->table->sim_mutex, UNLOCK);
 	if (is_dead)
 	{
-		print_message(philo, "is dead");
+		print_message(philo, "died");
 		return (1);
 	}
 	return (0);

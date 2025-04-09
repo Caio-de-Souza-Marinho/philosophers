@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:34:17 by caide-so          #+#    #+#             */
-/*   Updated: 2025/04/01 21:59:01 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:10:40 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,41 @@ unsigned long	get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
+void	print_message(t_table *table, t_philo *philo, char *msg)
+{
+	unsigned long	time;
+
+	time = get_time() - table->start_time;
+	if (ft_strcmp(msg, "died") == 0)
+	{
+		sem_wait(table->write);
+		printf("%lu %d %s\n", time, philo->id, msg);
+		return ;
+	}
+	else
+	{
+		sem_wait(table->write);
+		printf("%lu %d %s\n", time, philo->id, msg);
+		sem_post(table->write);
+	}
+}
+
 void	error_exit(char *error)
 {
 	printf("%s\n", error);
 	exit (EXIT_FAILURE);
 }
 
-void	clean(t_table *table)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	sem_close(table->forks);
-	sem_close(table->write);
-	sem_close(table->sim_end);
-	sem_close(table->meals_eaten);
-	sem_unlink(FORKS);
-	sem_unlink(WRITE);
-	sem_unlink(SIM_END);
-	sem_unlink(MEALS_EATEN);
+	size_t	i;
+
+	i = 0;
+	while ((s1[i] || s2[i]))
+	{
+		if ((unsigned char)s1[i] != (unsigned char)s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	return (0);
 }
