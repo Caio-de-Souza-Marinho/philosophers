@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:34:17 by caide-so          #+#    #+#             */
-/*   Updated: 2025/04/04 12:39:25 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:10:40 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,16 @@ void	error_exit(char *error)
 	exit (EXIT_FAILURE);
 }
 
-void	clean(t_table *table)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	if (table->philos)
+	size_t	i;
+
+	i = 0;
+	while ((s1[i] || s2[i]))
 	{
-		free(table->philos);
-		table->philos = NULL;
+		if ((unsigned char)s1[i] != (unsigned char)s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
 	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:53:07 by caide-so          #+#    #+#             */
-/*   Updated: 2025/04/05 17:16:23 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:53:51 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,13 @@ int				validate_args(int argc, t_table *config);
 // utils
 unsigned long	get_time(void);
 long			ft_atol(char *str);
-void			clean(t_table *table);
 void			error_exit(char *error);
 void			print_message(t_table *table, t_philo *philo, char *msg);
-void			unlink_all(void);
 int				ft_strcmp(const char *s1, const char *s2);
+
+// clean
+void			clean(t_table *table);
+void			close_all_sems(t_table *table);
 
 // init
 void			init_table(t_table *table);
@@ -101,15 +103,16 @@ void			init_sems(t_table *table);
 
 // processes
 void			spawn_philos(t_table *table);
+void			take_process(t_table *table);
+void			kill_process(t_table *table);
 
 // routine
-void			start_philo(t_table *table);
-void			routine(t_table *table, int id);
-void			one_philo_routine(t_table *table, t_philo *philo);
-void			philos_routine(t_table *table, t_philo *philo);
+void			routine(t_table *table);
+pid_t			one_philo_routine(t_table *table);
+void			start_routine(t_table *table);
+void			philos_routine(t_table *table, int id);
 void			take_forks(t_table *table, t_philo *philo);
 void			eat_sleep_think(t_table *table, t_philo *philo);
-void			kill_process(t_table *table);
 
 // monitor
 void			*monitor(void *arg);
