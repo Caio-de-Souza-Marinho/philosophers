@@ -37,6 +37,7 @@ void	routine(t_table *table, int id)
 	pid_t	pid;
 	t_philo	*philo;
 
+	usleep(1000);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -71,38 +72,6 @@ void	take_process(t_table *table)
 	}
 }
 
-void	kill_process(t_table *table)
-{
-	int	i;
-
-	i = 0 ;
-	while (i < table->nbr_philos)
-	{
-		kill(table->philos[i].pid, SIGKILL);
-		i++;
-	}
-}
-
-/*
-void	philos_routine(t_table *table, t_philo *philo)
-{
-	while (1)
-	{
-		take_forks(table, philo);
-		eat_sleep_think(table, philo);
-		if (table->nbr_meals != -1
-			&& philo->meals_eaten >= table->nbr_meals)
-		{
-			sem_post(table->meals_eaten);
-			break ;
-		}
-	}
-	sem_close(table->forks);
-	sem_close(table->write);
-	exit(EXIT_SUCCESS);
-}
-*/
-
 void	eat_sleep_think(t_table *table, t_philo *philo)
 {
 	take_forks(table, philo);
@@ -117,6 +86,7 @@ void	eat_sleep_think(t_table *table, t_philo *philo)
 	print_message(table, philo, "is sleeping");
 	usleep(table->time_to_sleep * 1000);
 	print_message(table, philo, "is thinking");
+	look_up(philo);
 }
 
 void	take_forks(t_table *table, t_philo *philo)
@@ -130,7 +100,7 @@ void	take_forks(t_table *table, t_philo *philo)
 
 void	wait_forks(t_philo *philo)
 {
-	while (*(int16_t *)philo->table->forks < 2)
+	while (*(int *)philo->table->forks < 2)
 		look_up(philo);
 }
 

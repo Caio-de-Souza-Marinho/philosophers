@@ -24,6 +24,8 @@ void	init_table(t_table *table)
 
 void	init_sems(t_table *table)
 {
+	sem_unlink(FORKS);
+	sem_unlink(WRITE);
 	table->forks = sem_open(FORKS, O_CREAT, 0644, table->nbr_philos);
 	table->write = sem_open(WRITE, O_CREAT, 0644, 1);
 }

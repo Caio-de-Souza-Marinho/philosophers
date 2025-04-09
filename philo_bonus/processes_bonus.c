@@ -26,3 +26,15 @@ void	spawn_philos(t_table *table)
 		i++;
 	}
 }
+
+void	kill_process(t_table *table)
+{
+	int	i;
+
+	i = 0 ;
+	while (i < table->nbr_philos)
+	{
+		kill(table->philos[i].pid, SIGKILL);
+		i++;
+	}
+}
