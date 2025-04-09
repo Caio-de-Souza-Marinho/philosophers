@@ -1,6 +1,6 @@
 NAME		= philo_bonus
 CC		= cc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -pthread
 RM		= rm -rf
 
 SRC_DIR		= ./
@@ -36,5 +36,14 @@ fclean:		clean
 			${RM} ${NAME} ${NAME_BONUS}
 
 re:		fclean all
+
+leak:
+			valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes ./${NAME} $(filter-out $@,$(MAKECMDGOALS))
+
+helgrind:
+			valgrind --tool=helgrind ./${NAME} $(filter-out $@,$(MAKECMDGOALS))
+
+%:
+			@:
 
 .PHONY:		all bonus clean fclean re

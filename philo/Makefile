@@ -1,6 +1,6 @@
 NAME		= philo
 CC		= cc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -pthread
 RM		= rm -rf
 
 SRC_DIR		= ./
