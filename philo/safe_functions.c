@@ -12,6 +12,9 @@
 
 #include "philo.h"
 
+// Wrapper for mutex operations with centralized error handling
+// 1. Executes pthread_mutex functions
+// 2. Calls handle_mutex_errors to check for failures
 void	safe_mutex(t_table *table, pthread_mutex_t *mutex, t_mode mode)
 {
 	if (mode == INIT)
@@ -26,6 +29,9 @@ void	safe_mutex(t_table *table, pthread_mutex_t *mutex, t_mode mode)
 		error_exit(table, "Mutex code error\n");
 }
 
+// Translates mutex error codes into human-readable messages
+// 1. Checks the error status and operation mode
+// 2. Prints descriptive errors
 void	handle_mutex_errors(int status, t_mode mode)
 {
 	if (status == 0)

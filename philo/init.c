@@ -14,12 +14,14 @@
 
 void	init_philos(t_table *table);
 
+// Initializes simulation resources (mutexes, forks and philosophers)
+// 1. Allocates memory for forks and philosophers
+// 2. Initializes mutexes for synchronization and logging
 void	init_table(t_table *table)
 {
 	int	i;
 
 	table->simulation_ended = 0;
-	table->finished_meals = 0;
 	table->start_time = get_time();
 	safe_mutex(table, &table->write_mutex, INIT);
 	safe_mutex(table, &table->sim_mutex, INIT);
@@ -43,6 +45,9 @@ void	init_table(t_table *table)
 	init_philos(table);
 }
 
+// Configures each philosopher's attributes and shared resources
+// 1. Assigns IDs, forks and initial meal times
+// 2. Links philosophers to the global simulation table
 void	init_philos(t_table *table)
 {
 	int		i;

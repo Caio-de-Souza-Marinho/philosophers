@@ -12,6 +12,9 @@
 
 #include "philo.h"
 
+// Initializes and starts threads for each philosopher
+// 1. Handles the single philosopher case, assigning the one_philo function
+// 2. Creates a thread for each philosopher, assigning the routine function
 void	create_threads(t_table *table)
 {
 	int		i;
@@ -36,6 +39,8 @@ void	create_threads(t_table *table)
 	}
 }
 
+// Waits for all philosopher threads to terminate before proceeding
+// 1. Iterates through all philosopher threads and call pthread_join
 void	join_threads(t_table *table)
 {
 	int	i;

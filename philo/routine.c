@@ -12,6 +12,9 @@
 
 #include "philo.h"
 
+// Simulates a single philosopher's actions
+// 1. Locks the only available fork
+// 2. Waits until the philosopher's death time elapses
 void	*one_philo(void *arg)
 {
 	t_philo	*philo;
@@ -24,6 +27,9 @@ void	*one_philo(void *arg)
 	return (NULL);
 }
 
+// Main loop for philosophers behavior
+// 1. Continuously checks if the simulation has ended
+// 2. Acquires forks, eats, sleeps and thinks
 void	*routine(void *arg)
 {
 	t_philo	*philo;
@@ -45,6 +51,9 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
+// Manages fork acquisition to avoid deadlock
+// 1. Even-numbered philosophers delay slightly to stagger fork pickup
+// 2. Alternates fork pickup order based on philosopher ID parity
 void	take_forks(t_philo *philo)
 {
 	char	*msg;
@@ -68,6 +77,10 @@ void	take_forks(t_philo *philo)
 	}
 }
 
+// Executes eating sleeping and thinking phases
+// 1. Updates the philosopher's last meal time
+// 2. Releases forks after eating
+// 3. Sleeps and thinks for the specified durations
 void	eat_sleep_think(t_philo *philo)
 {
 	safe_mutex(philo->table, &philo->meal_mutex, LOCK);

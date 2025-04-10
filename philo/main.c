@@ -12,6 +12,11 @@
 
 #include "philo.h"
 
+// Entry point for the philosopher simulation
+// 1. Validates input arguments
+// 2. Initializes resources and starts threads
+// 3. Launches the monitor thread
+// 4. Cleans up resources post-simulation
 int	main(int argc, char **argv)
 {
 	t_table	table;	
@@ -31,52 +36,3 @@ int	main(int argc, char **argv)
 	clean(&table);
 	return (0);
 }
-
-/*
-void	print_table(t_table *table);
-void	print_philos(t_table *table);
-void	print_forks(t_table *table);
-*/
-
-/*
-void	print_table(t_table *table)
-{
-	printf("number of philos - %d\n", table->nbr_philos);
-	printf("time to die - %ld\n", table->time_to_die);
-	printf("time to eat - %ld\n", table->time_to_eat);
-	printf("time to sleep - %ld\n", table->time_to_sleep);
-	printf("number of meals - %d\n", table->nbr_meals);
-	printf("simulation ended - %d\n", table->simulation_ended);
-	printf("finished meals - %d\n", table->finished_meals);
-	printf("start time - %lu\n", table->start_time);
-	print_forks(table);
-	print_philos(table);
-}
-
-void	print_philos(t_table *table)
-{
-	int	i;
-
-	i = 0;
-	printf("==========PHILOS==========\n");
-	while (i < table->nbr_philos)
-	{
-		printf("philo %d ate %d meals\n", table->philos[i].id,
-			table->philos[i].meal_counter);
-		i++;
-	}
-	printf("===========END===========\n");
-}
-
-void	print_forks(t_table *table)
-{
-	int	i;
-
-	i = 0;
-	while (i < table->nbr_philos)
-	{
-		printf("fork id - %d\n", table->forks[i].fork_id);
-		i++;
-	}
-}
-*/

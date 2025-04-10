@@ -12,6 +12,7 @@
 
 #include "philo.h"
 
+// Converts a string to a long integer, handling signs and whitespace
 long	ft_atol(char *str)
 {
 	long	res;
@@ -38,6 +39,9 @@ long	ft_atol(char *str)
 	return (res * sign);
 }
 
+// Retrieves the current system time in miliseconds
+// 1. Uses gettimeofday to fetch the system time
+// 2. Combines seconds and microseconds into a milisecond timestamp
 unsigned long	get_time(void)
 {
 	struct timeval	tv;
@@ -46,6 +50,9 @@ unsigned long	get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
+// Prints philosopher actions with timestamps
+// 1. Checks if the simulation has ended before printing
+// 2. Uses a mutex to synchronize log output
 void	print_message(t_philo *philo, char *msg)
 {
 	unsigned long	time;
@@ -66,6 +73,7 @@ void	print_message(t_philo *philo, char *msg)
 	safe_mutex(philo->table, &philo->table->write_mutex, UNLOCK);
 }
 
+// Locks write mutex and prints an error message
 void	error_exit(t_table *table, char *error)
 {
 	safe_mutex(table, &table->write_mutex, LOCK);
@@ -73,6 +81,9 @@ void	error_exit(t_table *table, char *error)
 	safe_mutex(table, &table->write_mutex, UNLOCK);
 }
 
+// Releases all allocated resources and destroys mutexes
+// 1. Iterates through forks and philosophers to destroy mutexes
+// 2. Frees memory for forks, philosophers and global mutexes
 void	clean(t_table *table)
 {
 	int		i;

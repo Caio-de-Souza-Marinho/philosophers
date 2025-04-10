@@ -22,7 +22,7 @@
 // to use malloc, free
 # include <stdlib.h>
 
-// to use function gettimeofday
+// to use gettimeofday
 # include <sys/time.h>
 
 // to use write, usleep
@@ -35,6 +35,7 @@
 // predefined error codes
 # include <errno.h>
 
+// Defines operation modes for mutex handling, used with the safe_mutex function
 typedef enum e_mode
 {
 	INIT,
@@ -45,12 +46,41 @@ typedef enum e_mode
 
 typedef struct s_table	t_table;
 
+// Represents a fork (shared resource) in the simulation
+//
+// Members:
+// fork: Mutex controlling access to the fork
+//
+// fork_id: Unique identifier for debugging/logging
+//
+// Note: Forks are shared between adjacent philosophers
 typedef struct s_fork
 {
 	pthread_mutex_t	fork;
 	int				fork_id;
 }	t_fork;
 
+// Stores data for an individual philosopher
+//
+// Members:
+// id: Philosopher's unique identifier (1-indexed)
+//
+// meal_counter: Tracks meals eaten (compared to nbr_meals)
+//
+// right_fork: Pointer to the fork on the philosopher's right
+//
+// left_fork: Pointer to the fork on the philosopher's left
+//
+// thread_id: Thread handle for the philosopher's routine
+//
+// meal_mutex: Mutex guarding access to last_meal_time and meal_counter
+//
+// last_meal_time: Timestamp(ms) of the philosopher's last meal
+//
+// table: Pointer to the global simulation state (t_table)
+//
+// Note: Forks are arranged circularly (last philo's left fork = first
+// philo's right fork)
 typedef struct s_philo
 {
 	int				id;
@@ -63,6 +93,32 @@ typedef struct s_philo
 	t_table			*table;
 }	t_philo;
 
+// Central simulation configuration and state
+//
+// Members:
+// nbr_philos: Total number of philosophers
+//
+// time_to_die: Max time(ms) a philosopher can go without eating
+//
+// time_to_eat: Time(ms) a philosopher spends eating
+//
+// time_to_sleep: Time(ms) a philosopher spends sleeping
+//
+// nbr_meals: Optional meal goal
+//
+// simulation_ended: Flag to terminate all threads (1 = end)
+//
+// monitor: Thread handle for the monitoring thread
+//
+// start_time: Timestamp(ms) of simulation start
+//
+// write_mutex: Mutex for synchronized log output
+//
+// sim_mutex: Mutex guardind simulation_ended and finished_meals
+//
+// forks: Array of t_fork shared between philosophers
+//
+// philos: Array of t_philo representing each philosoper
 typedef struct s_table
 {
 	int				nbr_philos;
@@ -71,7 +127,6 @@ typedef struct s_table
 	long			time_to_sleep;
 	int				nbr_meals;
 	int				simulation_ended;
-	int				finished_meals;
 	pthread_t		monitor;
 	unsigned long	start_time;
 	pthread_mutex_t	write_mutex;

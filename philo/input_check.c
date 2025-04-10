@@ -12,6 +12,7 @@
 
 #include "philo.h"
 
+// Parse command-line arguments into simulation parameters
 void	parse_args(int argc, char **argv, t_table *table)
 {
 	table->nbr_philos = (int)ft_atol(argv[1]);
@@ -24,6 +25,7 @@ void	parse_args(int argc, char **argv, t_table *table)
 		table->nbr_meals = -1;
 }
 
+// Ensures all input values are positive numbers
 int	validate_args(int argc, t_table *table)
 {
 	if (table->nbr_philos <= 0 || table->time_to_die <= 0

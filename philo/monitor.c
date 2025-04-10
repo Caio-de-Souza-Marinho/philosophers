@@ -12,10 +12,9 @@
 
 #include "philo.h"
 
-/*
- * - infinite loop that contains the function check philos
- * - checks if a philo is dead of if all meals were eaten
-*/
+// Oversees the simulation, checking for deaths or completion
+// 1. Polls each philosopher's status periodically
+// 2. Terminates the simulation if a philosopher dies or all meals are eaten.
 void	monitor(t_table *table)
 {
 	int	i;
@@ -44,6 +43,9 @@ void	monitor(t_table *table)
 	}
 }
 
+// Determines if a philosopher has starved
+// 1. Calculates time since last meal
+// 2. Updates the simulation end flag if death occurs
 int	check_philo_death(t_philo *philo, long time_to_die)
 {
 	unsigned long	time_since_meal;
@@ -69,6 +71,10 @@ int	check_philo_death(t_philo *philo, long time_to_die)
 	return (0);
 }
 
+// Check if all philosophers have met their meal quota
+// 1. Iterates through meal counters for each philosopher
+// 2. Returns 1 only if all philosophers have eaten enough
+// Note: Skipped if the table->nbr_meals is set to -1
 int	check_all_meals(t_table *table)
 {
 	int	i;
@@ -91,6 +97,8 @@ int	check_all_meals(t_table *table)
 	return (all_ate);
 }
 
+// Compares s1 and s2 until a mismatch of end of string
+// Returns the ASCII difference between the first mismatched characters
 int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t	i;
