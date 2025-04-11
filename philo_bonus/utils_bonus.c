@@ -12,6 +12,7 @@
 
 #include "philo_bonus.h"
 
+// Converts a string to a long integer, handling signs and whitespace
 long	ft_atol(char *str)
 {
 	long	res;
@@ -38,6 +39,9 @@ long	ft_atol(char *str)
 	return (res * sign);
 }
 
+// Retrieves the current system time in miliseconds
+// 1. Uses gettimeofday to fetch the system time
+// 2. Combines seconds and microseconds into a milisecond timestamp
 unsigned long	get_time(void)
 {
 	struct timeval	tv;
@@ -46,6 +50,9 @@ unsigned long	get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
+// Logs philosopher actions with timestamps
+// 1. Uses sem_wait and sem_post on the write semaphore
+// 2. Bypasses checks for "died" messages to ensure final log
 void	print_message(t_table *table, t_philo *philo, char *msg)
 {
 	unsigned long	time;
@@ -65,12 +72,15 @@ void	print_message(t_table *table, t_philo *philo, char *msg)
 	}
 }
 
+// Prints error and exit
 void	error_exit(char *error)
 {
 	printf("%s\n", error);
 	exit (EXIT_FAILURE);
 }
 
+// Compares s1 and s2 until a mismatch of end of string
+// Returns the ASCII difference between the first mismatched characters
 int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t	i;

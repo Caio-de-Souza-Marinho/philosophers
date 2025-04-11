@@ -74,6 +74,7 @@ int	check_philo_death(t_philo *philo, long time_to_die)
 // Check if all philosophers have met their meal quota
 // 1. Iterates through meal counters for each philosopher
 // 2. Returns 1 only if all philosophers have eaten enough
+//
 // Note: Skipped if the table->nbr_meals is set to -1
 int	check_all_meals(t_table *table)
 {

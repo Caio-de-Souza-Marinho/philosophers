@@ -13,13 +13,9 @@
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 
-// MACROS
+// semaphore macros
 # define FORKS "/forks"
 # define WRITE "/write"
-# define SIM_END "/sim_end"
-# define MEALS_EATEN "/meals_eaten"
-# define MAX_PH "/max_philos"
-# define MEAL_TIME "/meal_time"
 
 // to use memset
 # include <string.h>
@@ -59,16 +55,49 @@
 
 typedef struct s_table	t_table;
 
+// Represents a philosopher
+//
+// Members:
+// id: Philosopher's unique idendifier (1-indexed)
+//
+// meals_eaten: Count of meals consumed (decrements from nbr_meals)
+//
+// death_time: Timestamp(ms) when the philosopher will starve
+//
+// table: Pointer to the global simulation state (t_table)
+//
+// Note: Each philosopher runs in a separate process
 typedef struct s_philo
 {
 	pid_t			pid;
 	int				id;
-	unsigned long	last_meal_time;
 	int				meals_eaten;
 	unsigned long	death_time;
 	t_table			*table;
 }	t_philo;
 
+// Global simulation configuration and state
+//
+// Members:
+// nbr_philos: Total number of philosophers
+//
+// time_to_die: Max time(ms) a philosopher can go without eating
+//
+// time_to_eat: Time(ms) a philosopher spends eating
+//
+// time_to_sleep: Time(ms) a philosopher spends sleeping
+//
+// nbr_meals: Optional meal goal
+//
+// start_time: Timestamp(ms) of simulation start
+//
+// forks: Semaphore representing available forks (shared across processes)
+//
+// write: Semaphore for synchronized log output
+//
+// philos: Array of t_philo
+//
+// Note: Semaphores replace mutexes for inter-process synchronization
 typedef struct s_table
 {
 	int				nbr_philos;
@@ -102,7 +131,7 @@ void			init_table(t_table *table);
 void			init_sems(t_table *table);
 
 // processes
-void			spawn_philos(t_table *table);
+void			init_philos(t_table *table);
 void			take_process(t_table *table);
 void			kill_process(t_table *table);
 
@@ -111,8 +140,12 @@ void			routine(t_table *table);
 pid_t			one_philo_routine(t_table *table);
 void			start_routine(t_table *table);
 void			philos_routine(t_table *table, int id);
-void			take_forks(t_table *table, t_philo *philo);
+
+// actions
 void			eat_sleep_think(t_table *table, t_philo *philo);
+void			take_forks(t_table *table, t_philo *philo);
+void			wait_forks(t_philo *philo);
+void			look_up(t_philo *philo);
 
 // monitor
 void			*monitor(void *arg);

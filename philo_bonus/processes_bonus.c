@@ -12,21 +12,9 @@
 
 #include "philo_bonus.h"
 
-void	spawn_philos(t_table *table)
-{
-	int		i;
-
-	i = 0;
-	while (i < table->nbr_philos)
-	{
-		table->philos[i].id = i + 1;
-		table->philos[i].table = table;
-		table->philos[i].meals_eaten = table->nbr_meals;
-		table->philos[i].death_time = table->time_to_die;
-		i++;
-	}
-}
-
+// Waits for child processes to terminate
+// 1. Uses waitpid to monitor process exits
+// 2. Checks exit status for failures (starvation case)
 void	take_process(t_table *table)
 {
 	int	i;
@@ -43,6 +31,10 @@ void	take_process(t_table *table)
 	}
 }
 
+// Terminates all philosopher processes
+// 1. Sends SIGKILL to each philosopher's PID
+//
+// Note: Called if a philosopher dies or an error occurs
 void	kill_process(t_table *table)
 {
 	int	i;

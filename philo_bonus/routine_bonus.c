@@ -12,6 +12,11 @@
 
 #include "philo_bonus.h"
 
+// Entry point for philosopher processes
+// 1. Handle single philosopher edge case separately
+// 2. Forks processes for all philosophers
+//
+// Note: Parent process waits for children via take_process
 void	routine(t_table *table)
 {
 	pid_t		tmp_pid;
@@ -31,6 +36,9 @@ void	routine(t_table *table)
 	}
 }
 
+// Simulates a single philosopher
+// 1. Locks the only fork using sem_wait
+// 2. Waits until death time elapses
 pid_t	one_philo_routine(t_table *table)
 {
 	pid_t	pid;
@@ -56,6 +64,9 @@ pid_t	one_philo_routine(t_table *table)
 	return (pid);
 }
 
+// Launches philosopher processes
+// 1. Forks a process for each philosopher
+// 2. Staggers even-numbered philosophers to reduce contention
 void	start_routine(t_table *table)
 {
 	int	i;
@@ -71,6 +82,16 @@ void	start_routine(t_table *table)
 	take_process(table);
 }
 
+// Creates a child process for a philosopher and executes their behavior loop
+// 1. Forks a process for the philosopher with the given id
+// 2. Assigns the philosopher's initial death_time
+// 3. Staggers even-numbered philosophers with usleep(500) to reduce fork
+// contention
+// 4. Executes eat_sleep_think in a loop until the meal quota is met
+//
+// Note: Child processes exit after completing their meal goal
+//
+// Note: Parent process stores the child's PID in the philosopher struct
 void	philos_routine(t_table *table, int id)
 {
 	pid_t	pid;

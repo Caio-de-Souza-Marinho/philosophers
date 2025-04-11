@@ -12,6 +12,7 @@
 
 #include "philo_bonus.h"
 
+// Frees philosopher array memory
 void	clean(t_table *table)
 {
 	if (table->philos)
@@ -21,6 +22,7 @@ void	clean(t_table *table)
 	}
 }
 
+// Close and unlinks semaphores
 void	close_all_sems(t_table *table)
 {
 	if (table->forks)

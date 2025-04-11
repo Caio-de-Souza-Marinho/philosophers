@@ -12,10 +12,13 @@
 
 #include "philo_bonus.h"
 
-void	take_forks(t_table *table, t_philo *philo);
-void	wait_forks(t_philo *philo);
-void	look_up(t_philo *philo);
-
+// Philosopher's main action loop
+// 1. Acquires forks via semaphores (sem_wait)
+// 2. Updates death time and logs eating
+// 3. Releases forks after eating (sem_post)
+// 4. Sleeps and thinks
+//
+// Note: Uses look_up to check for starvation during actions
 void	eat_sleep_think(t_table *table, t_philo *philo)
 {
 	take_forks(table, philo);
@@ -33,6 +36,11 @@ void	eat_sleep_think(t_table *table, t_philo *philo)
 	look_up(philo);
 }
 
+// Acquires two forks using semaphores
+// 1. Waits until at least two forks are available
+// 2. Locks forks semaphore twice
+//
+// Note: Semaphore count represent available forks
 void	take_forks(t_table *table, t_philo *philo)
 {
 	wait_forks(philo);
@@ -42,12 +50,26 @@ void	take_forks(t_table *table, t_philo *philo)
 	print_message(table, philo, "has taken a fork");
 }
 
+// Busy waits until at least two forks are available for the philosopher
+// 1. Continuously checks the semaphore count to ensure >= 2 forks
+// 2. Calls look_up during the wait to check for starvation
+//
+// Note: Avoids deadlock by ensuring a philosopher only proceeds when two forks
+// are free
+//
+// Note: Uses active waiting but includes starvation checks to prevent infinite
+// loops
 void	wait_forks(t_philo *philo)
 {
 	while (*(int *)philo->table->forks < 2)
 		look_up(philo);
 }
 
+// Checks if the philosopher has starved
+// 1. Compares current time to death_time
+// 2. Terminates the process if starved
+//
+// Note: Replaces the monitor thread from the mandatory version
 void	look_up(t_philo *philo)
 {
 	if (get_time() >= (unsigned long)philo->death_time + 1)
